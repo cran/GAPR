@@ -4,12 +4,10 @@
 \alias{.compute_gar_core}
 \title{Internal function to compute Anti-Robinson or GAR/ RGAR score}
 \usage{
-.compute_gar_core(mat, order, w = NULL, normalize = FALSE)
+.compute_gar_core(mat_sorted, w = NULL, normalize = FALSE)
 }
 \arguments{
-\item{mat}{A numeric, symmetric distance matrix.}
-
-\item{order}{A permutation vector indicating the new ordering of rows/columns.}
+\item{mat_sorted}{A numeric, symmetric sorted distance matrix.}
 
 \item{w}{An integer window size (if NULL, evaluates all triplets globally).}
 

@@ -55,6 +55,4 @@ Controls how the branches of the clustering tree are flipped:
 \strong{Important:}
 Do not specify both \code{flipType = 1} and a \code{NULL} or missing \code{externalOrder}.
 When using \code{flipType = 1}, \code{externalOrder} must be a valid integer vector.
-
-Please refer to \code{\link{computeProximity}} for complete usage examples.
 }

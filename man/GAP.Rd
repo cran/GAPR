@@ -350,13 +350,9 @@ if (requireNamespace("MASS", quietly = TRUE)) {
   CRAB_result$col_prox        # Column proximity matrix (after ordering)
 
   # Evaluate row ordering quality
-  AR(CRAB_result$row_prox, CRAB_result$row_order)
-  GAR(CRAB_result$row_prox, CRAB_result$row_order, w = 10)
-  RGAR(CRAB_result$row_prox, CRAB_result$row_order, w = 10)
+  AR(CRAB_result$row_prox)
+  GAR(CRAB_result$row_prox, w = 10)
+  RGAR(CRAB_result$row_prox, w = 10)
 
-  # Evaluate column ordering quality
-  AR(CRAB_result$col_prox, CRAB_result$column_order)
-  GAR(CRAB_result$col_prox, CRAB_result$column_order)
-  RGAR(CRAB_result$col_prox, CRAB_result$column_order)
 }
 }

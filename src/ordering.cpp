@@ -14,14 +14,14 @@ int isTerminal(int **merge,int pt);
 int* ivector1_3(int length)
 {
   int *out;
-  out=new int[length];
-  out--;
+  out=new int[length+1];
+  //out--;
   return out;
 }
 
 void free_ivector1_3(int* vec)
 {
-  vec++;
+  //vec++;
   delete[] vec;
 }
 

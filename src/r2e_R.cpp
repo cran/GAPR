@@ -11,16 +11,16 @@ extern "C"
 
 double** fun1dto2dArray_r2e(double *input_ptr, int n, int p)
     {
-        double** output_ptr = new double* [p];
-        for(int i=0; i<p; i++)
+        double** output_ptr = new double* [n];
+        for(int i=0; i<n; i++)
         {
-            output_ptr[i] = new double[n];   
+            output_ptr[i] = new double[p];   
         }
 
         for(int i=0; i<n*p; i++)
         {
-            int x = i/n;
-            int y = i%n;
+            int x = i/p;
+            int y = i%p;
             output_ptr[x][y]=input_ptr[i];
         }
 
@@ -57,7 +57,7 @@ void free_dvector1_r2e(double* vec)
 
 int** imatrix1_r2e(int nrow,int ncol)
 {
-  int **out,i;
+  int **out,i=0;
   out=new int*[nrow];
   for(i=0;i<nrow;i++){
     out[i]=new int[ncol];
@@ -69,7 +69,7 @@ int** imatrix1_r2e(int nrow,int ncol)
 
 void free_imatrix1_r2e(int** mat,int nrow)
 {
-  int i;
+  int i=0;
   //mat++;
   for(i=0;i<nrow;i++){
     //mat[i]++;
@@ -81,7 +81,7 @@ void free_imatrix1_r2e(int** mat,int nrow)
 double** dmatrix1_r2e(int nrow,int ncol)
 {
   double **out;
-  int i;
+  int i=0;
   out=new double*[nrow];
   for(i=0;i<nrow;i++){
     out[i]=new double[ncol];
@@ -93,7 +93,7 @@ double** dmatrix1_r2e(int nrow,int ncol)
 
 void free_dmatrix1_r2e(double** mat,int nrow)
 {
-  int i;
+  int i=0;
   //mat++;
   for(i=0;i<nrow;i++){
     //mat[i]++;
@@ -163,19 +163,19 @@ void correlation_prox(double ** data, int nrow, int ncol, double **corr_row)
 int* ellipse_sort_d(double **alldata,int nrow,int ncol,double **corr_row,int recursive_n)
 {
     //TODO: Add your source code here
-    int i,j;
-    double ellipse_temp;
+    int i=0,j=0;
+    double ellipse_temp=0;
 
-    int min_i,min_j;
-    double minrij;
-    double r1;
+    int min_i=0,min_j=0;
+    double minrij=0;
+    double r1=0;
     double *leng,*ang;
     double *new_x,*new_y;
 
-    int new_x_max,new_x_min;
-    double dc_max;
-    double ellipse_a,ellipse_b,ellipse_c;
-    int cy;
+    int new_x_max=0,new_x_min=0;
+    double dc_max=0;
+    double ellipse_a=0,ellipse_b=0,ellipse_c=0;
+    int cy=0;
     //double zoomratio;
 
     leng = new double[nrow];
@@ -351,7 +351,7 @@ int* ellipse_sort_d(double **alldata,int nrow,int ncol,double **corr_row,int rec
         double tempang=0;
         double maxdist=0;
         double *ang1;
-        int startang,tempi;
+        int startang=0,tempi=0;
         sortang = new int[nrow];
         sortang1 = new int[nrow];
         ang1 = new double[nrow];
@@ -406,9 +406,9 @@ int* ellipse_sort_d(double **alldata,int nrow,int ncol,double **corr_row,int rec
             delete[] new_x;
         if(new_y)
             delete[] new_y;
-        delete sortang;
+        delete[] sortang;
 
-        delete ang1;
+        delete[] ang1;
 
         return sortang1;
     }
@@ -427,15 +427,15 @@ void ellipse_sort(double *alldataPtr, int *output_ptr, int nrow, int ncol, int r
         output_ptr[i] =  output_array[i];   
     }
 
-    free_dmatrix1_r2e(alldata, nrow);
+    //free_dmatrix1_r2e(alldata, nrow);
+    for(int i = 0; i < nrow; i++){
+        delete[] alldata[i];
+    }
+    delete[] alldata;
     free_dmatrix1_r2e(corr_row, nrow);
-    free_ivector1_r2e(output_array);
-    
-    // for(int i=0; i<nrow; i++)
-    //     printf("%d\t",output_ptr[i]);
-    // printf("\n");
-    
-    //return ellipse_sort_d(alldata, nrow, ncol, corr_row, recursive_n);
+    //free_ivector1_r2e(output_array);
+    delete[] output_array;
+
 }
 
 #ifdef __cplusplus

@@ -4,12 +4,10 @@
 \alias{RGAR}
 \title{Compute the Relative Generalized Anti-Robinson (RGAR) score}
 \usage{
-RGAR(mat, order, w = NULL)
+RGAR(mat_sorted, w = NULL)
 }
 \arguments{
-\item{mat}{A symmetric numeric distance matrix.}
-
-\item{order}{A permutation vector specifying the new row/column order.}
+\item{mat_sorted}{A numeric, symmetric sorted distance matrix.}
 
 \item{w}{Window size (integer). If NULL, uses global comparisons (equivalent to AR normalized).}
 }

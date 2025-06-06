@@ -11,8 +11,6 @@ ellipse_sort(data)
 }
 \value{
 An integer vector representing the reordered indices of the matrix rows.
-
-Please refer to \code{\link{computeProximity}} for complete usage examples.
 }
 \description{
 This function applies an Rank-2-Ellipse seriation method to reorder a proximity matrix.

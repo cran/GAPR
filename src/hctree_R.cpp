@@ -22,49 +22,49 @@ public:
 int* ivector1(int length)
 {
   int *out;
-  out=new int[length];
-  out--;
+  out=new int[length+1];
+  //out--;
   return out;
 }
 
 void free_ivector1(int* vec)
 {
-  vec++;
+  //vec++;
   delete[] vec;
 }
 
 double* dvector1(int length)
 {
   double *out;
-  out=new double[length];
-  out--;
+  out=new double[length+1];
+  //out--;
   return out;
 }
 
 void free_dvector1(double* vec)
 {
-  vec++;
+  //vec++;
   delete[] vec;
 }
 
 int** imatrix1(int nrow,int ncol)
 {
-  int **out,i;
-  out=new int*[nrow];
-  for(i=0;i<nrow;i++){
-    out[i]=new int[ncol];
-    out[i]--;
+  int **out,i=0;
+  out=new int*[nrow+1];
+  for(i=0;i<=nrow;i++){
+    out[i]=new int[ncol+1];
+    //out[i]--;
   }
-  out--;
+  //out--;
   return out;
 }
 
 void free_imatrix1(int** mat,int nrow)
 {
-  int i;
-  mat++;
-  for(i=0;i<nrow;i++){
-    mat[i]++;
+  int i=0;
+  //mat++;
+  for(i=0;i<=nrow;i++){
+    //mat[i]++;
     delete[] mat[i];
   }
   delete[] mat;
@@ -73,22 +73,22 @@ void free_imatrix1(int** mat,int nrow)
 double** dmatrix1(int nrow,int ncol)
 {
   double **out;
-  int i;
-  out=new double*[nrow];
-  for(i=0;i<nrow;i++){
-    out[i]=new double[ncol];
-    out[i]--;
+  int i=0;
+  out=new double*[nrow+1];
+  for(i=0;i<=nrow;i++){
+    out[i]=new double[ncol+1];
+    //out[i]--;
   }
-  out--;
+  //out--;
   return out;
 }
 
 void free_dmatrix1(double** mat,int nrow)
 {
-  int i;
-  mat++;
-  for(i=0;i<nrow;i++){
-    mat[i]++;
+  int i=0;
+  //mat++;
+  for(i=0;i<=nrow;i++){
+    //mat[i]++;
     delete[] mat[i];
   }
   delete[] mat;
@@ -150,8 +150,8 @@ A pointer to the integer that is to receive the second index of the pair with
 the shortest distance.
 */
 {
-    int i, j;
-    double temp;
+    int i=0, j=0;
+    double temp=0;
     double distance=distmatrix[1][0];
     *ip = 1;
     *jp = 0;
@@ -279,7 +279,7 @@ void htree_single_d(double **_data,int n,int **merge,double *hgt)
   free_ivector1(active);
 */
 
-    int i,j,k;
+    int i=0,j=0,k=0;
     int nelements = n;
     int nnodes = n-1;
     int* vector;
@@ -386,8 +386,8 @@ void htree_single_d(double **_data,int n,int **merge,double *hgt)
 
 void htree_single_s(double **_data,int n,int **merge,double *hgt)
 {
-  int i,j,n2,iter,*minwith,*active,ptmin,pm1,pm2;
-  double **data,min,max,*minval;
+  int i=0,j=0,n2=0,iter=0,*minwith,*active,ptmin=0,pm1=0,pm2=0;
+  double **data,min=0,max=0,*minval;
   n2=2*n-1;
   //allocate
   data=dmatrix1(n2,n2);
@@ -1340,13 +1340,22 @@ void htree_upgma_s(double **_data,int n,int **merge,double *hgt)
 
 
 
-void hctree_sort(double *alldataPtr, int *externalOrder, int *output_left_ptr, int *output_right_ptr, double *output_hgt, int *output_order, int nrow, int ncol, int orderType, int flipType)
+//void hctree_sort(double *alldataPtr, int *externalOrder, int *output_left_ptr, int *output_right_ptr, double *output_hgt, int *output_order, int nrow, int ncol, int orderType, int flipType)
+void hctree_sort(const Rcpp::NumericMatrix& distance_matrix, int *externalOrder, int *output_left_ptr, int *output_right_ptr, double *output_hgt, int *output_order, int nrow, int ncol, int orderType, int flipType)
 {
-    double **alldata = fun1dto2dArray(alldataPtr,nrow,ncol);
-    //double **corr_row;
+    
+    //double **alldata = fun1dto2dArray(alldataPtr,nrow,ncol);
+    // 建立 row-major 的 2D vector
+    //std::vector<std::vector<double>> alldata(nrow+1, std::vector<double>(ncol+1));
+    double** alldata = dmatrix1(nrow, ncol);
+    // Copy ── 仍用 (i, j) 索引
+    for (int i = 0; i < nrow; ++i)
+      for (int j = 0; j < ncol; ++j)
+        alldata[i+1][j+1] = distance_matrix(i, j);
+
+
     int **merge;
     double *hgt;
-    //corr_row=dmatrix1(nrow,nrow);
     merge=imatrix1(2*nrow-1,2);
     hgt=dvector1(2*nrow-1);
 
@@ -1428,11 +1437,12 @@ void hctree_sort(double *alldataPtr, int *externalOrder, int *output_left_ptr, i
     free_dmatrix1(alldata, nrow);
     free_imatrix1(merge, 2*nrow-1);
     free_dvector1(hgt);
-    free_ivector1(obj_ordering);
-
+    //free_ivector1(obj_ordering);
+    //obj_ordering++;
+    delete[] obj_ordering;
     free_ivector1(torder);
     delete ol;
-
+        
 }
 
 #ifdef __cplusplus
@@ -1452,11 +1462,15 @@ Rcpp::List hctree_sort_R(Rcpp::NumericMatrix distance_matrix, Rcpp::IntegerVecto
     Rcpp::IntegerVector output_order(nrow);
 
     // 調用 C++ 的階層分群函數
-    hctree_sort(&distance_matrix[0], externalOrder.begin(),
+    /*hctree_sort(&distance_matrix[0], externalOrder.begin(),
                 output_left_ptr.begin(), output_right_ptr.begin(),
                 output_hgt.begin(), output_order.begin(),
                 nrow, ncol, orderType, flipType);
-
+*/
+    hctree_sort(distance_matrix, externalOrder.begin(),
+                output_left_ptr.begin(), output_right_ptr.begin(),
+                output_hgt.begin(), output_order.begin(),
+                nrow, ncol, orderType, flipType);
     // 返回結果
     return Rcpp::List::create(
         Rcpp::Named("left") = output_left_ptr,

@@ -4,12 +4,10 @@
 \alias{AR}
 \title{Compute the Anti-Robinson (AR) score}
 \usage{
-AR(mat, order)
+AR(mat_sorted)
 }
 \arguments{
-\item{mat}{A symmetric numeric distance matrix.}
-
-\item{order}{A permutation vector specifying the new row/column order.}
+\item{mat_sorted}{A numeric, symmetric sorted distance matrix.}
 }
 \value{
 The AR score (the total number of structural violations).

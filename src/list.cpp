@@ -1,5 +1,5 @@
 #include "list.h"
-
+#include <stdio.h>
 #ifdef __cplusplus
 extern "C"
 {
@@ -8,18 +8,34 @@ extern "C"
 int* ivector1_2(int length)
 {
   int *out;
-  out=new int[length];
-  out--;
+  out=new int[length+1];
+  //out--;
   return out;
 }
 
+//
+// gObject
+//
 
+gObject::~gObject()
+{
+  // 虛擬解構函式的實作
+}
+
+//
+// gInt
 //
 
 gInt::gInt(int _data)
 {
   data=_data;
 }
+
+gInt::~gInt()
+{
+  // gInt 的虛擬解構函式實作
+}
+
 
 //
 // ListNode
@@ -39,6 +55,7 @@ ListNode::ListNode(gObject *val)
 
 ListNode::~ListNode()
 {
+  // 不在這裡刪除 _val，因為 List 會負責管理
 }
 
 ListNode *ListNode::next()
@@ -96,7 +113,9 @@ List::~List()
 {
   while(length() > 0){
     first();
-    delete remove();
+    gObject* obj = remove();  // 先獲取要刪除的對象
+    //printf("Size of object a: %d bytes\n", sizeof(*obj));
+    delete obj;               // 刪除對象本身，不是 ListNode
   }
   delete header;
 }
@@ -138,11 +157,13 @@ gObject* List::remove()
 {
   if(win == header) return NULL;
   gObject *val=win->_val;
+  ListNode *nodeToDelete = win;  // 保存要刪除的節點
   win=win->prev();
-  delete win->next()->remove();
+  nodeToDelete->remove();        // 從鏈表中移除
+  delete nodeToDelete;           // 刪除節點本身
   --_length;
   --_index;
-  return val;
+  return val;  // 返回數據對象，由調用者負責刪除
 }
 
 gObject* List::val(gObject *val)

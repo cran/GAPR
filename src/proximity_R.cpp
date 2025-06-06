@@ -1445,7 +1445,8 @@ void computeProximity(double *alldataPtr, double *outputProx, int nrow, int ncol
     // printf("start to compute proximity.\n"); 
 
     double **alldata = fun1dto2dArray_Proximity(alldataPtr,nrow,ncol);
-    double *proxArray;
+    double *proxArray = nullptr;
+
     bool isDataContainMissingValue;
     if(isContainMissingValue==0)
       isDataContainMissingValue=false;
@@ -1578,15 +1579,17 @@ void computeProximity(double *alldataPtr, double *outputProx, int nrow, int ncol
       }
     }
 
-    if(side==0) //row
-    { 
-      for(int i=0; i<(nrow*nrow); i++)
-          outputProx[i] = proxArray[i];
-    }
-    else
-    { 
-      for(int i=0; i<(ncol*ncol); i++)
-          outputProx[i] = proxArray[i];
+    if(proxArray){
+        if(side==0) //row
+        { 
+          for(int i=0; i<(nrow*nrow); i++)
+              outputProx[i] = proxArray[i];
+        }
+        else
+        { 
+          for(int i=0; i<(ncol*ncol); i++)
+              outputProx[i] = proxArray[i];
+        }
     }
 
     for(int i=0; i<nrow; i++){
@@ -1594,7 +1597,8 @@ void computeProximity(double *alldataPtr, double *outputProx, int nrow, int ncol
     }
     delete[] alldata;
 
-    delete[] proxArray;
+    if(proxArray)
+        delete[] proxArray;
 
 
     //printf("outputProx: %f\n",outputProx[1]); 

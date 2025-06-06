@@ -4,12 +4,10 @@
 \alias{GAR}
 \title{Compute the Generalized Anti-Robinson (GAR) score}
 \usage{
-GAR(mat, order, w = NULL)
+GAR(mat_sorted, w = NULL)
 }
 \arguments{
-\item{mat}{A symmetric numeric distance matrix.}
-
-\item{order}{A permutation vector specifying the new row/column order.}
+\item{mat_sorted}{A numeric, symmetric sorted distance matrix.}
 
 \item{w}{Window size (integer). If NULL, uses global comparisons (equivalent to AR).}
 }

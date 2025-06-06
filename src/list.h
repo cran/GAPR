@@ -9,6 +9,8 @@ extern "C"
 
 class gObject
 {
+  public:
+  virtual ~gObject();
 };
 
 class gInt : public gObject
@@ -16,6 +18,7 @@ class gInt : public gObject
 public:
   int data;
   gInt(int _data);
+  virtual ~gInt();
 };
 
 class ListNode
