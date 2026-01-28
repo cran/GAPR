@@ -1,6 +1,6 @@
 Package: GAPR
 Title: Generalized Association Plots
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: 
     c(
         person("Shu-Yu", "Lin", , "shuyuuu89@gmail.com", role = c("aut", "cre")),
@@ -16,10 +16,10 @@ Suggests: MASS
 LinkingTo: Rcpp
 RoxygenNote: 7.3.2
 NeedsCompilation: yes
-Packaged: 2025-06-06 08:52:10 UTC; R108-4
+Maintainer: Shu-Yu Lin <shuyuuu89@gmail.com>
+Packaged: 2026-01-28 07:33:42 UTC; R108-4
 Author: Shu-Yu Lin [aut, cre],
   Chiun-How Kao [aut, ctb],
   Chun-Houh Chen [aut, ctb]
-Maintainer: Shu-Yu Lin <shuyuuu89@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-06-06 13:30:10 UTC
+Date/Publication: 2026-01-28 07:50:02 UTC

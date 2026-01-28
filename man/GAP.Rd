@@ -137,7 +137,9 @@ with optional proximity computation, ordering, flipping, coloring, and export op
 \strong{isProximityMatrix}
 
 If \code{isProximityMatrix = TRUE}, you may directly provide a proximity matrix as the input \code{data}.
-In this case, only row-based settings will be applied, such as \code{row.order}, \code{row.flip}, and \code{row.externalOrder}.
+In this case, the provided proximity matrix is treated as the “original matrix” for visualization;
+therefore \code{original.color} and \code{exp.originalmatrix} control the display of the input matrix (i.e., the proximity matrix).
+Accordingly, only row-based settings will be applied, such as \code{row.order}, \code{row.flip}, \code{row.externalOrder}, \code{row.name}, \code{row.label.size}, \code{exp.row_order}, and \code{exp.row_names}.
 Note that correlation matrices (e.g., \code{"pearson"}) must be converted to distance matrices before being used,
 and the selected color scheme must also be one of the supported diverging palettes (e.g., \code{"GAP_Blue_White_Red"}, \code{"BrBG"}, \code{"PiYG"}, \code{"PRGn"}, \code{"PuOr"}, \code{"RdBu"}, \code{"RdGy"}).
 
@@ -145,6 +147,7 @@ and the selected color scheme must also be one of the supported diverging palett
 
 These parameters are used to specify which columns in \code{data} should be treated as covariates
 on the X or Y axes. Provide the column indices (e.g., \code{XdNum = c(3, 5)}) of discrete or continuous variables.
+Discrete covariates (Xd and Yd) are used as provided in the input data and treated as categorical labels.
 
 \strong{Xd.name, Xc.name}
 
@@ -252,11 +255,12 @@ Supported built-in palettes include:
 \item \code{"GAP_Rainbow"}
 \item \code{"GAP_Blue_White_Red"}
 \item \code{"GAP_d"}
-\item \code{"grayscale_palette"}
+\item \code{"grayscale_palette"} (for Binary data)
 }
 
 You may also specify any palette name from the \code{RColorBrewer} package.
 However, note that some palettes—such as those under the "Qualitative" category—are not suitable for visualizing continuous data like proximity matrices.
+For gray-scale representations of continuous matrices, the \code{"Greys"} palette from \code{RColorBrewer} can be used.
 
 All palette names must be passed as character strings (e.g., \code{"GAP_Rainbow"}, \code{"Set1"}).
 
